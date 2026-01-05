@@ -1,0 +1,24 @@
+{
+  "name": "gestao-viaturas-militares",
+  "version": "1.0.0",
+  "description": "Sistema de Gestao de Viaturas Militares",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "viaturas",
+    "gestao",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2"
+  }
+}
+

@@ -1,0 +1,14 @@
+id,viatura_id,missao_id,tipo,descricao,gravidade,data_ocorrencia,created_at,updated_at,created_by,updated_by
+49,1,1,Acidente,Colisao frontal em cruzamento,Media,2023-01-16,1765403168,1765403168,1,1
+50,1,3,Incidente,Risco de derrapagem em piso molhado,Baixa,2023-03-06,1765403168,1765403168,1,1
+51,1,5,Acidente,Arranhao lateral causado por estacionamento,Baixa,2023-05-21,1765403168,1765403168,1,1
+52,3,2,Acidente,Colisao traseira,Media,2023-02-11,1765403168,1765403168,1,1
+53,3,5,Incidente,Pneu furado em estrada,Baixa,2023-05-22,1765403168,1765403168,1,1
+54,3,6,Acidente,Danos no para-choques,Baixa,2023-06-09,1765403168,1765403168,1,1
+55,3,2,Incidente,Problema mecanico durante missao,Media,2023-02-12,1765403168,1765403168,1,1
+56,3,5,Acidente,Arranhao no capo,Baixa,2023-05-23,1765403168,1765403168,1,1
+57,4,2,Incidente,Avaria eletrica,Media,2023-02-13,1765403168,1765403168,1,1
+58,4,4,Acidente,Colisao lateral,Alta,2023-04-13,1765403168,1765403168,1,1
+59,8,3,Incidente,Problema no sistema hidraulico,Media,2023-03-07,1765403168,1765403168,1,1
+60,9,1,Acidente,Queda da moto,Alta,2023-01-17,1765403168,1765403168,1,1
+61,1,5,Acidente,Colisao com veiculo civil,Media,2026-01-30,1767463489,1767463489,1,1

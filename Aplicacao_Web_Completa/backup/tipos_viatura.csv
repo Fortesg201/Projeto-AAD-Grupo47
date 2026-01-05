@@ -1,0 +1,5 @@
+id,nome,descricao,created_at,updated_at,created_by,updated_by
+1,Veiculo Ligeiro,Veiculos ligeiros de passageiros e mercadorias,1765403168,1765403168,1,1
+2,Veiculo Pesado,Veiculos pesados de transporte,1765403168,1765403168,1,1
+3,Motociclo,Motociclos e ciclomotores,1765403168,1765403168,1,1
+4,Ambulancia,Veiculos de emergencia medica,1765403168,1765403168,1,1

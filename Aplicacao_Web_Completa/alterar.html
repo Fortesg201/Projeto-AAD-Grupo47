@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Dados - Gestão de Viaturas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-car text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Gestão de Viaturas Militares</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="px-4 py-2 hover:bg-blue-800 rounded transition">
+                        <i class="fas fa-home mr-2"></i>Início
+                    </a>
+                    <a href="inserir.html" class="px-4 py-2 hover:bg-blue-800 rounded transition">
+                        <i class="fas fa-plus mr-2"></i>Inserir
+                    </a>
+                    <a href="alterar.html" class="px-4 py-2 bg-blue-800 rounded hover:bg-blue-700 transition">
+                        <i class="fas fa-edit mr-2"></i>Alterar
+                    </a>
+                    <a href="consultas.html" class="px-4 py-2 hover:bg-blue-800 rounded transition">
+                        <i class="fas fa-search mr-2"></i>Consultas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-bold mb-6 text-gray-800">
+            <i class="fas fa-edit text-green-600 mr-2"></i>Alterar Dados
+        </h2>
+
+        <!-- Search Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-xl font-semibold mb-4">Buscar Viatura</h3>
+            <div class="flex gap-4">
+                <input type="text" id="search-matricula" placeholder="Digite a matrícula..." 
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <button onclick="buscarViatura()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    <i class="fas fa-search mr-2"></i>Buscar
+                </button>
+            </div>
+        </div>
+
+        <!-- Edit Form -->
+        <div id="edit-form-container" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-800">Editar Viatura</h3>
+                <form id="form-alterar-viatura" class="space-y-6">
+                    <input type="hidden" id="viatura_id" name="viatura_id">
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Matrícula *</label>
+                            <input type="text" id="matricula" name="matricula" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Marca *</label>
+                            <input type="text" id="marca" name="marca" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Modelo *</label>
+                            <input type="text" id="modelo" name="modelo" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Viatura *</label>
+                            <select id="tipo_id" name="tipo_id" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="1">Veiculo Ligeiro</option>
+                                <option value="2">Veiculo Pesado</option>
+                                <option value="3">Motociclo</option>
+                                <option value="4">Ambulancia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Base Militar *</label>
+                            <select id="base_id" name="base_id" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="1">Base Aerea 1 - Lisboa</option>
+                                <option value="2">Base Aerea 2 - Porto</option>
+                                <option value="3">Base Aerea 3 - Coimbra</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Estado *</label>
+                            <select id="estado" name="estado" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="Operacional">Operacional</option>
+                                <option value="Em Manutencao">Em Manutencao</option>
+                                <option value="Indisponivel">Indisponivel</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quilometragem *</label>
+                            <input type="number" id="quilometragem" name="quilometragem" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" onclick="cancelarEdicao()" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition">
+                            <i class="fas fa-times mr-2"></i>Cancelar
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-save mr-2"></i>Salvar Alterações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Related Data Section -->
+        <div id="related-data" class="hidden mt-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dados Relacionados</h3>
+                
+                <!-- Manutenções -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold mb-3 text-green-600">
+                        <i class="fas fa-wrench mr-2"></i>Manutenções
+                    </h4>
+                    <div id="manutencoes-list" class="space-y-2">
+                        <!-- Manutenções serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Abastecimentos -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold mb-3 text-yellow-600">
+                        <i class="fas fa-gas-pump mr-2"></i>Abastecimentos
+                    </h4>
+                    <div id="abastecimentos-list" class="space-y-2">
+                        <!-- Abastecimentos serão carregados aqui -->
+                    </div>
+                </div>
+
+                <!-- Ocorrências -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-red-600">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Ocorrências
+                    </h4>
+                    <div id="ocorrencias-list" class="space-y-2">
+                        <!-- Ocorrências serão carregadas aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message -->
+        <div id="message" class="hidden mt-4 p-4 rounded-lg"></div>
+    </div>
+
+    <script>
+        function buscarViatura() {
+            const matricula = document.getElementById('search-matricula').value;
+            if (!matricula) {
+                showMessage('Por favor, digite uma matrícula', 'error');
+                return;
+            }
+
+            fetch('/api/alterar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'buscar',
+                    matricula: matricula
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    preencherFormulario(data.data.viatura);
+                    carregarDadosRelacionados(data.data);
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('Erro ao buscar viatura: ' + error.message, 'error');
+            });
+        }
+
+        function preencherFormulario(viatura) {
+            document.getElementById('viatura_id').value = viatura.id;
+            document.getElementById('matricula').value = viatura.matricula;
+            document.getElementById('marca').value = viatura.marca;
+            document.getElementById('modelo').value = viatura.modelo;
+            document.getElementById('tipo_id').value = viatura.tipo_id;
+            document.getElementById('base_id').value = viatura.base_id;
+            document.getElementById('estado').value = viatura.estado;
+            document.getElementById('quilometragem').value = viatura.quilometragem;
+            
+            document.getElementById('edit-form-container').classList.remove('hidden');
+        }
+
+        function carregarDadosRelacionados(data) {
+            // Renderizar manutenções
+            if (data.manutencoes && data.manutencoes.length > 0) {
+                const manutencoesHtml = data.manutencoes.map(m => `
+                    <div class="border-l-4 border-green-500 pl-4 py-2 bg-gray-50 rounded">
+                        <div class="flex justify-between">
+                            <span class="font-semibold">${m.tipo}</span>
+                            <span class="text-green-600">${parseFloat(m.custo).toFixed(2)} €</span>
+                        </div>
+                        <p class="text-sm text-gray-600">${m.descricao}</p>
+                        <p class="text-xs text-gray-500">${m.oficina_nome} - ${m.data_execucao}</p>
+                    </div>
+                `).join('');
+                document.getElementById('manutencoes-list').innerHTML = manutencoesHtml;
+            } else {
+                document.getElementById('manutencoes-list').innerHTML = '<p class="text-gray-500 text-sm">Nenhuma manutenção registada</p>';
+            }
+
+            // Renderizar abastecimentos
+            if (data.abastecimentos && data.abastecimentos.length > 0) {
+                const abastecimentosHtml = data.abastecimentos.map(a => `
+                    <div class="border-l-4 border-yellow-500 pl-4 py-2 bg-gray-50 rounded">
+                        <div class="flex justify-between">
+                            <span>${parseFloat(a.litros).toFixed(2)} litros - ${a.combustivel_nome}</span>
+                            <span class="text-yellow-600">${parseFloat(a.custo_total).toFixed(2)} €</span>
+                        </div>
+                        <p class="text-xs text-gray-500">${a.fornecedor_nome} - ${a.data_abastecimento}</p>
+                    </div>
+                `).join('');
+                document.getElementById('abastecimentos-list').innerHTML = abastecimentosHtml;
+            } else {
+                document.getElementById('abastecimentos-list').innerHTML = '<p class="text-gray-500 text-sm">Nenhum abastecimento registado</p>';
+            }
+
+            // Renderizar ocorrências
+            if (data.ocorrencias && data.ocorrencias.length > 0) {
+                const ocorrenciasHtml = data.ocorrencias.map(o => `
+                    <div class="border-l-4 border-red-500 pl-4 py-2 bg-gray-50 rounded">
+                        <div class="flex justify-between">
+                            <span class="font-semibold">${o.tipo}</span>
+                            <span class="text-red-600">${o.gravidade}</span>
+                        </div>
+                        <p class="text-sm text-gray-600">${o.descricao}</p>
+                        <p class="text-xs text-gray-500">${o.missao_local} - ${o.data_ocorrencia}</p>
+                    </div>
+                `).join('');
+                document.getElementById('ocorrencias-list').innerHTML = ocorrenciasHtml;
+            } else {
+                document.getElementById('ocorrencias-list').innerHTML = '<p class="text-gray-500 text-sm">Nenhuma ocorrência registada</p>';
+            }
+
+            document.getElementById('related-data').classList.remove('hidden');
+        }
+
+        function cancelarEdicao() {
+            document.getElementById('edit-form-container').classList.add('hidden');
+            document.getElementById('related-data').classList.add('hidden');
+            document.getElementById('search-matricula').value = '';
+        }
+
+        document.getElementById('form-alterar-viatura').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {
+                action: 'atualizar'
+            };
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch('/api/alterar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('Erro ao atualizar: ' + error.message, 'error');
+            });
+        });
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = `mt-4 p-4 rounded-lg ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+            messageDiv.textContent = text;
+            messageDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
+

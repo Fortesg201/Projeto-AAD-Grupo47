@@ -1,0 +1,173 @@
+terminal:
+
+npm install
+npm run dev
+
+http://localhost:3001/index.html
+
+Funcionalidade 1 : http://localhost:3001/inserir.html
+
+Inserir Dados: Viatura + Manutenção
+
+Matrícula: WE-08-EA
+Marca: Mercedes
+Modelo: GLE
+Tipo de Viatura: "Veiculo Pesado"
+Base Militar: Base Area 2 - Porto
+Estado: Operacional
+Quilometragem: 10000
+
+Oficina: Mecanica Rapida
+Tipo de Manutenção: Preventiva
+Descrição: Revisao completa
+Custo: 370.00
+Data de Execução: 2024-01-15
+Próxima Revisão: 2024-07-15
+
+
+-- Verificar viatura inserida
+SELECT * FROM viaturas WHERE matricula = 'WE-08-EA';
+
+-- Verificar manutenção associada
+SELECT m.*, v.matricula 
+FROM manutencoes m
+JOIN viaturas v ON m.viatura_id = v.id
+WHERE v.matricula = 'WE-08-EA';
+
+
+
+Inserir Dados:  Viatura + Abastecimento
+
+Matrícula: KI-98-PL
+Marca: Nissan
+Modelo: S
+Tipo de Viatura: "Veiculo Ligeiro"
+Base Militar: Base Area 1 - Lisboa
+Estado: Indesponivel
+Quilometragem: 99
+
+Militar Responsável: Carlos Mendes - Tenete
+Fornecedor: BP Portugal
+Tipo Combustível: Gasolina 98
+Litros: 60
+Custo total: 90
+Quilometragem: 99
+Data de abstecimento: 2024-01-15
+
+
+-- Verificar viatura e abastecimento
+SELECT v.matricula, v.marca, a.litros, a.custo_total, a.data_abastecimento
+FROM viaturas v
+JOIN abastecimentos a ON v.id = a.viatura_id
+WHERE v.matricula = 'KI-98-PL';
+
+
+Inserir Dados:  Viatura + Ocorrência
+Selecionar Viatura Existente : XP-10-20
+
+Missão: Vigilancia - Aveiro
+Tipo: Acidente
+Gravidade: Media
+Data : 2024-01-15
+Descricao: Colisao frontal com veiculo civil
+
+-- Verificar ocorrência inserida
+SELECT o.*, v.matricula, m.local as missao_local
+FROM ocorrencias o
+JOIN viaturas v ON o.viatura_id = v.id
+JOIN missoes m ON o.missao_id = m.id
+WHERE v.matricula = 'XP-10-20'
+ORDER BY o.data_ocorrencia DESC
+LIMIT 1;
+
+
+
+Funcionalidade 2 : http://localhost:3001/alterar.html
+
+Alterar Dados
+
+buscar viatura: AA-00-BB
+
+Quilometragem: 7000
+Estado: indesponivel
+
+-- Verificar alteração
+SELECT matricula, quilometragem, estado, updated_at
+FROM viaturas
+WHERE matricula = 'AA-00-BB';
+
+
+
+Funcionalidade 3: Query Elaborada a Partir de Várias Tabelas : http://localhost:3001/consultas.html
+
+Consultas : Executar: Viaturas com mais de 2000€ em abastecimentos (2020-09 a 2023-12)
+
+
+SELECT 
+    v.matricula,
+    '2020-09 a 2023-12' AS periodo,
+    SUM(a.custo_total) AS total_abastecido,
+    COUNT(*) AS num_abastecimentos
+FROM viaturas v
+JOIN abastecimentos a ON v.id = a.viatura_id
+WHERE a.data_abastecimento > '2020-09-01' 
+  AND a.data_abastecimento <= '2023-12-31'
+GROUP BY v.matricula, v.id
+HAVING SUM(a.custo_total) >= 2000
+ORDER BY total_abastecido DESC;
+
+Executar: Viatura com maior custo em manutenções no ano de 2023
+
+SELECT
+    v.matricula,
+    2023 AS ano,
+    SUM(m.custo) AS custo_total,
+    COUNT(*) AS num_manutencoes
+FROM viaturas v
+JOIN manutencoes m ON v.id = m.viatura_id
+WHERE EXTRACT(YEAR FROM m.data_execucao) = 2023
+GROUP BY v.matricula, v.id
+HAVING SUM(m.custo) >= ALL (
+    SELECT SUM(custo)
+    FROM manutencoes
+    WHERE EXTRACT(YEAR FROM data_execucao) = 2023
+    GROUP BY viatura_id
+);
+
+Executar: Tipo de viatura com mais ocorrências
+
+SELECT 
+    t.nome AS tipo, 
+    COUNT(*) AS num_ocorrencias
+FROM tipos_viatura t
+JOIN viaturas v ON t.id = v.tipo_id 
+JOIN ocorrencias o ON v.id = o.viatura_id 
+GROUP BY t.nome
+HAVING COUNT(*) >= ALL (
+    SELECT COUNT(*)
+    FROM tipos_viatura t2
+    JOIN viaturas v2 ON t2.id = v2.tipo_id
+    JOIN ocorrencias o2 ON v2.id = o2.viatura_id
+    GROUP BY t2.nome
+);
+
+Executar: Relatório completo com viaturas e suas manutenções
+
+SELECT * FROM relatorio_frota ORDER BY matricula, custo DESC;
+
+
+Funcionalidade 4: Stored Procedure
+
+Stored Procedure para Viatura Específica
+
+Objetivo: Demonstrar execução de stored procedure com parâmetro
+
+matricula: AA-00-BB
+
+
+SELECT * FROM calcular_despesa_total_viatura('AA-00-BB');
+
+
+
+para todas as viaturas basta deixar em branco e executar
+SELECT * FROM calcular_despesa_total_todas_viaturas();

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas - Gestão de Viaturas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-car text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Gestão de Viaturas Militares</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="px-4 py-2 hover:bg-blue-800 rounded transition">
+                        <i class="fas fa-home mr-2"></i>Início
+                    </a>
+                    <a href="inserir.html" class="px-4 py-2 hover:bg-blue-800 rounded transition">
+                        <i class="fas fa-plus mr-2"></i>Inserir
+                    </a>
+                    <a href="alterar.html" class="px-4 py-2 hover:bg-blue-800 rounded transition">
+                        <i class="fas fa-edit mr-2"></i>Alterar
+                    </a>
+                    <a href="consultas.html" class="px-4 py-2 bg-blue-800 rounded hover:bg-blue-700 transition">
+                        <i class="fas fa-search mr-2"></i>Consultas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-bold mb-6 text-gray-800">
+            <i class="fas fa-search text-purple-600 mr-2"></i>Consultas Avançadas
+        </h2>
+
+        <!-- Query Cards -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <!-- Query 1: Viaturas com mais de 2000€ em abastecimentos -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold mb-3 text-blue-600">
+                    <i class="fas fa-gas-pump mr-2"></i>Viaturas com Alto Consumo
+                </h3>
+                <p class="text-gray-600 mb-4">Viaturas que consumiram mais de 2000€ em abastecimentos entre set/2020 e dez/2023</p>
+                <button onclick="executarConsulta('abastecimentos')" 
+                    class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    <i class="fas fa-play mr-2"></i>Executar Consulta
+                </button>
+            </div>
+
+            <!-- Query 2: Viatura com maior custo em manutenções 2023 -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold mb-3 text-green-600">
+                    <i class="fas fa-wrench mr-2"></i>Maior Custo em Manutenções
+                </h3>
+                <p class="text-gray-600 mb-4">Viatura com maior custo em manutenções no ano de 2023</p>
+                <button onclick="executarConsulta('manutencoes')" 
+                    class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                    <i class="fas fa-play mr-2"></i>Executar Consulta
+                </button>
+            </div>
+
+            <!-- Query 3: Tipo de viatura com mais ocorrências -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold mb-3 text-red-600">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>Tipo com Mais Ocorrências
+                </h3>
+                <p class="text-gray-600 mb-4">Tipo de viatura com maior número de ocorrências registadas</p>
+                <button onclick="executarConsulta('ocorrencias')" 
+                    class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                    <i class="fas fa-play mr-2"></i>Executar Consulta
+                </button>
+            </div>
+
+            <!-- Query 4: Relatório de Frota -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">
+                    <i class="fas fa-list mr-2"></i>Relatório de Frota
+                </h3>
+                <p class="text-gray-600 mb-4">Relatório completo com viaturas e suas manutenções</p>
+                <button onclick="executarConsulta('relatorio')" 
+                    class="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                    <i class="fas fa-play mr-2"></i>Executar Consulta
+                </button>
+            </div>
+
+            <!-- Query 5: Stored Procedure -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition md:col-span-2">
+                <h3 class="text-xl font-semibold mb-3 text-orange-600">
+                    <i class="fas fa-database mr-2"></i>Stored Procedure: Despesa Total por Viatura
+                </h3>
+                <p class="text-gray-600 mb-4">Calcular despesa total (manutenções + abastecimentos) por viatura em 2023</p>
+                <div class="flex gap-4">
+                    <input type="text" id="proc-matricula" placeholder="Digite a matrícula (opcional)" 
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <button onclick="executarStoredProcedure()" 
+                        class="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition">
+                        <i class="fas fa-play mr-2"></i>Executar Procedure
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-semibold text-gray-800">Resultados</h3>
+                    <button onclick="fecharResultados()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div id="results-table" class="overflow-x-auto">
+                    <!-- Tabela será inserida aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function executarConsulta(tipo) {
+            fetch(`/api/consultas?tipo=${tipo}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const resultados = data.data;
+                        if (resultados.length === 0) {
+                            mostrarResultados([], []);
+                            return;
+                        }
+                        
+                        // Determinar colunas baseado no tipo
+                        let colunas = [];
+                        if (resultados.length > 0) {
+                            colunas = Object.keys(resultados[0]).map(key => 
+                                key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+                            );
+                        }
+                        
+                        mostrarResultados(resultados, colunas);
+                    } else {
+                        alert('Erro: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Erro ao executar consulta: ' + error.message);
+                });
+        }
+
+        function executarStoredProcedure() {
+            const matricula = document.getElementById('proc-matricula').value;
+            const url = matricula ? 
+                `/api/stored-procedure?matricula=${encodeURIComponent(matricula)}` :
+                '/api/stored-procedure';
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const resultados = data.data;
+                        if (resultados.length === 0) {
+                            mostrarResultados([], []);
+                            return;
+                        }
+                        
+                        const colunas = Object.keys(resultados[0]).map(key => 
+                            key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+                        );
+                        
+                        mostrarResultados(resultados, colunas);
+                    } else {
+                        alert('Erro: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Erro ao executar procedure: ' + error.message);
+                });
+        }
+
+        function mostrarResultados(dados, colunas) {
+            if (dados.length === 0) {
+                document.getElementById('results-table').innerHTML = 
+                    '<p class="text-gray-500 text-center py-8">Nenhum resultado encontrado.</p>';
+            } else {
+                let html = '<div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr>';
+                colunas.forEach(col => {
+                    html += `<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${col}</th>`;
+                });
+                html += '</tr></thead><tbody class="bg-white divide-y divide-gray-200">';
+                
+                dados.forEach(row => {
+                    html += '<tr class="hover:bg-gray-50">';
+                    Object.values(row).forEach(val => {
+                        // Formatar valores numéricos
+                        const formattedVal = typeof val === 'number' && val % 1 !== 0 ? 
+                            parseFloat(val).toFixed(2) : val;
+                        html += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${formattedVal}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                
+                html += '</tbody></table></div>';
+                html += `<p class="mt-4 text-sm text-gray-600">Total de registos: ${dados.length}</p>`;
+                document.getElementById('results-table').innerHTML = html;
+            }
+            
+            document.getElementById('results-section').classList.remove('hidden');
+            document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function fecharResultados() {
+            document.getElementById('results-section').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
+
